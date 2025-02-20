@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>Super secret clock in and out app</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 20px;
+                background-color: black;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+    
+            h1 {
+                font-size: 20px;
+                color: grey;
+            }
+    
+            button {
+                padding: 15px 20px;
+                font-size: 15px;
+                font-weight: bold;
+                cursor: pointer;
+                margin: 15px;
+                border: none;
+                border-radius: 8px;
+                width: 90%;
+                max-width: 300px;
+                transition: background 0.3s ease;
+                background-color: rgb(226, 159, 1);
+                color: black;
+            }
+    
+            select {
+                padding: 10px;
+                font-size: 22px;
+                font-weight: bold;
+                border-radius: 5px;
+                margin: 10px;
+                width: 90%;
+                max-width: 300px;
+                text-align: center;
+                text-align-last: center;
+                background-color: black;
+                color: blueviolet;
+            }
+    
+            #status {
+                margin-top: 20px;
+                font-weight: bold;
+                padding: 15px;
+                border-radius: 8px;
+                display: inline-block;
+                width: 90%;
+                max-width: 300px;
+                font-size: 18px;
+            }
+    
+            .green-bg { background-color: green; color: white; }
+            .red-bg { background-color: red; color: white; }
+            .gray-bg { background-color: gray; color: white; }
+        </style>
+    </head>
+    <body>
+        <p id="status" class="gray-bg">Status: Waiting...</p>
+        <h1>Super secret clock in and out!</h1>
+        <label for="employee">Who's Punchin in?</label>
+        <select id="employee">
+            <option value="438804" data-key="test">Test Employee</option>
+            <option value="551538" data-key="pasha">Pasha Klopov</option>
+        </select>
+        <br>
+        <button onclick="sendPunch()">Touch me</button>
+    
+        <script>
+            async function sendPunch() {
+                const employeeSelect = document.getElementById("employee");
+                const employeeKey = employeeSelect.options[employeeSelect.selectedIndex].getAttribute("data-key"); 
+                const statusElement = document.getElementById("status");
+    
+                try {
+                    const response = await fetch("https://clock-in-app-hdnd.onrender.com/punch", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ employee: employeeKey }) 
+                    });
+    
+                    const data = await response.json();
+    
+                    if (data.message.includes("in")) {
+                        statusElement.className = "green-bg";
+                    } else if (data.message.includes("out")) {
+                        statusElement.className = "red-bg";
+                    } else {
+                        statusElement.className = "gray-bg";
+                    }
+    
+                    statusElement.innerText = data.message || "Punch successful!";
+                } catch (error) {
+                    console.error("Error punching:", error);
+                    statusElement.className = "gray-bg";
+                    statusElement.innerText = "Error punching in/out.";
+                }
+            }
+        </script>
+    </body>    
+</html>
