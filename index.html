@@ -74,8 +74,8 @@
         <h1>Super secret clock in and out!</h1>
         <label for="employee">Who's Punchin in?</label>
         <select id="employee">
-            <option value="438804" data-key="test">Test Employee</option>
-            <option value="551538" data-key="pasha">Pasha Klopov</option>
+            <option value="438804" data-key="0000198006">Test Employee</option>
+            <option value="551538" data-key="0011942154">Pasha Klopov</option>
         </select>
         <br>
         <button onclick="sendPunch()">Touch me</button>
@@ -87,12 +87,12 @@
                 const statusElement = document.getElementById("status");
     
                 try {
-                    const response = await fetch("https://clock-in-app-hdnd.onrender.com/punch", {
+                    const response = await fetch("https://ccfx-punch-app.onrender.com/punch", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify({ employee: employeeKey }) 
+                        body: JSON.stringify({ employeeId: employeeKey }) 
                     });
     
                     const data = await response.json();
