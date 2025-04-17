@@ -34,19 +34,19 @@
                 border-radius: 8px;
                 width: 90%;
                 max-width: 200px;
-                height: 150px;
+                height: 100px;
                 transition: background 0.3s ease;
                 background-color: rgb(226, 159, 1);
                 color: black;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 10px; /* Space between GIF and text */
+                gap: 10px;
             }
     
             button img {
-                width: 100px; /* Adjust GIF size */
-                height: 100px;
+                width: 100px;
+                height: 60px;
                 vertical-align: middle;
             }
     
@@ -61,17 +61,25 @@
                 font-size: 18px;
             }
     
+            #status img {
+                width: 30px; /* Adjust GIF size */
+                height: 30px;
+                vertical-align: middle; /* Align GIF with text */
+                margin-left: 5px; /* Space between text and GIF */
+            }
+    
             .green-bg { background-color: green; color: white; }
             .red-bg { background-color: red; color: white; }
             .gray-bg { background-color: gray; color: white; }
         </style>
     </head>
     <body>
-        <p id="status" class="gray-bg">Status: Do something...</p>
-        <h1>🤫Super secret clock in and out🤫</h1>
+        <p id="status" class="gray-bg">Status: Do something... <img src="https://media1.tenor.com/m/LoXuYGcyMxgAAAAd/just-do-it-shia-la-beouf.gif"></p>
+        <h1>🤫</h1>
+        <h1>Super secret clock in and out</h1>
         <button onclick="sendPunch()">
             <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWcxeHkydThyeHFicjZpdGJ2a3dkenlqcjhndXVhcmswZnJ1cXIyMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/S5PC0BmFbFnhBjlaTZ/giphy.gif" alt="Boxer Punching">
-            Punch Boi
+            Punch
         </button>
     
         <script>
@@ -80,7 +88,7 @@
                 
                 // Set status to processing on button press
                 statusElement.className = "gray-bg";
-                statusElement.innerText = "...processing...";
+                statusElement.innerText = "⏳...processing...⏳";
     
                 try {
                     const response = await fetch("https://ccfx-punch-app.onrender.com/punch", {
@@ -102,7 +110,7 @@
                         statusElement.className = "gray-bg";
                     }
     
-                    statusElement.innerText = data.message || "Punch successful!";
+                    statusElement.innerText = data.message || "Punch successful!✅";
                 } catch (error) {
                     console.error("Error punching:", error);
                     statusElement.className = "gray-bg";
