@@ -25,7 +25,7 @@
             }
     
             button {
-                padding: 15px 20px;
+                padding: 25px 20px;
                 font-size: 15px;
                 font-weight: bold;
                 cursor: pointer;
@@ -33,24 +33,21 @@
                 border: none;
                 border-radius: 8px;
                 width: 90%;
-                max-width: 300px;
+                max-width: 200px;
+                height: 150px;
                 transition: background 0.3s ease;
                 background-color: rgb(226, 159, 1);
                 color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px; /* Space between GIF and text */
             }
     
-            select {
-                padding: 10px;
-                font-size: 22px;
-                font-weight: bold;
-                border-radius: 5px;
-                margin: 10px;
-                width: 90%;
-                max-width: 300px;
-                text-align: center;
-                text-align-last: center;
-                background-color: black;
-                color: blueviolet;
+            button img {
+                width: 100px; /* Adjust GIF size */
+                height: 100px;
+                vertical-align: middle;
             }
     
             #status {
@@ -70,21 +67,20 @@
         </style>
     </head>
     <body>
-        <p id="status" class="gray-bg">Status: Waiting...</p>
+        <p id="status" class="gray-bg">Status: Do something...</p>
         <h1>Super secret clock in and out!</h1>
-        <label for="employee">Who's Punchin in?</label>
-        <select id="employee">
-            <option value="438804" data-key="0000198006">Test Employee</option>
-            <option value="551538" data-key="0011942154">Pasha Klopov</option>
-        </select>
-        <br>
-        <button onclick="sendPunch()">Touch me</button>
+        <button onclick="sendPunch()">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWcxeHkydThyeHFicjZpdGJ2a3dkenlqcjhndXVhcmswZnJ1cXIyMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/S5PC0BmFbFnhBjlaTZ/giphy.gif" alt="Boxer Punching">
+            Punch Boi
+        </button>
     
         <script>
             async function sendPunch() {
-                const employeeSelect = document.getElementById("employee");
-                const employeeKey = employeeSelect.options[employeeSelect.selectedIndex].getAttribute("data-key"); 
                 const statusElement = document.getElementById("status");
+                
+                // Set status to processing on button press
+                statusElement.className = "gray-bg";
+                statusElement.innerText = "...processing...";
     
                 try {
                     const response = await fetch("https://ccfx-punch-app.onrender.com/punch", {
@@ -92,11 +88,12 @@
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify({ employeeId: employeeKey }) 
+                        body: JSON.stringify({ employeeId: "0011942154" }) // Pasha's employee key
                     });
     
                     const data = await response.json();
     
+                    // Update status based on response
                     if (data.message.includes("in")) {
                         statusElement.className = "green-bg";
                     } else if (data.message.includes("out")) {
